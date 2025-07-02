@@ -1,0 +1,13 @@
+#!/bin/bash
+if [[ "$1" == "-h" || "$1" == "--help" || -z "$1" ]]; then
+    echo "Usage: kcme 'username:password'@target_ip"
+    exit 0
+fi
+input="$1"
+creds=$(echo "$input" | cut -d'@' -f1)
+ip=$(echo "$input" | cut -d'@' -f2)
+username=$(echo "$creds" | cut -d':' -f1)
+password=$(echo "$creds" | cut -d':' -f2)
+domains=$(grep "$ip" /etc/hosts | awk '{$1=""; print $0}' | tr -s ' ' | tr ' ' '\n' | tr '[:lower:]' '[:upper:]')
+for domain in $domains; do echo "$password" | kinit "$username@$domain" 2>/dev/null; done
+klist
