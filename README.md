@@ -13,5 +13,12 @@ sudo chmod +x /usr/local/bin/kcme
 ```
 # Usage
 ```
-kcme 'username:password'@xx.xx.xx.xx
+kcme 'kaorz:Roper4155'@10.10.10.240
+Password for kaorz@LICORDEBELLOTA.HTB:
+Ticket cache: FILE:/tmp/krb5cc_1000
+Default principal: kaorz@LICORDEBELLOTA.HTB
+
+Valid starting       Expires              Service principal
+07/02/2025 12:31:08  07/02/2025 22:31:08  krbtgt/LICORDEBELLOTA.HTB@LICORDEBELLOTA.HTB
+        renew until 07/03/2025 12:31:08
 ```
