@@ -4,24 +4,31 @@
 ### Simplified Kerberos ccache management. No more need to remember realms.
 
 # Description
-This was developed to solve the issue of managing the ccache file while negotiating with Kerberos. The tool 𝗸𝗰𝗺𝗲 essentially takes simple parameters, uses the provided IP address and does a lookup of domains in /etc/hosts. The tool will attempt each domain so the user doesn't need to remember the correct realm name and also all domain are translated to UPPERCASE for kinit generation.
+This was developed to solve the issue of managing ccache files while negotiating with Kerberos. The tool 𝗸𝗰𝗺𝗲 essentially provides a simple management user interface in python. It reads available .ccache files in the current directory and allows the user to select the user they wish to use for Kerberos negotiation. Once a user is selected, it loads the file into /tmp/krb5cc_1000.
 
-# Install
+# Requirements
 ```
-sudo wget https://github.com/DaddyBigFish/kcme/raw/refs/heads/main/kcme -O /usr/local/bin/kcme
-sudo chmod +x /usr/local/bin/kcme
+sudo apt install krb5-user
 echo 'export KRB5CCNAME=/tmp/krb5cc_1000' >> ~/.zshrc
 echo 'export KRB5CCNAME=/tmp/krb5cc_1000' >> ~/.bashrc
 source ~/.zshrc ~/.bashrc
 ```
+# Install
+```
+sudo wget https://github.com/DaddyBigFish/kcme/raw/refs/heads/main/kcme -O /usr/local/bin/kcme
+sudo chmod +x /usr/local/bin/kcme
+```
 # Usage
 ```
-kcme 'kaorz:Roper4155'@10.10.10.240
-Password for kaorz@LICORDEBELLOTA.HTB:
-Ticket cache: FILE:/tmp/krb5cc_1000
-Default principal: kaorz@LICORDEBELLOTA.HTB
-
-Valid starting       Expires              Service principal
-07/02/2025 12:31:08  07/02/2025 22:31:08  krbtgt/LICORDEBELLOTA.HTB@LICORDEBELLOTA.HTB
-        renew until 07/03/2025 12:31:08
+kcme
+┌──────────────────────────────────────────┐
+│   Kerberos Negotiation Management Menu   │
+│             by DaddyBigFish              │
+└──────────────────────────────────────────┘
+=> 1. kaorz
+=> 2. gibdeon
+=> 3. lothbrok
+=> 4. 0xvic
+=> 5. administrator
+=> 6. backupadmin
 ```
