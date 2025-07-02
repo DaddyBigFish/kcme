@@ -8,10 +8,10 @@ This was developed to solve the issue of managing the ccache file while negotiat
 
 # Install
 ```
-wget https://github.com/DaddyBigFish/skewme/raw/refs/heads/main/skewme -O /usr/local/bin/skewme
+sudo wget https://github.com/DaddyBigFish/kcme/raw/refs/heads/main/kcme -O /usr/local/bin/kcme
 sudo chmod +x /usr/local/bin/kcme
 ```
 # Usage
 ```
-sudo kcme 'username:password'@xx.xx.xx.xx
+kcme 'username:password'@xx.xx.xx.xx
 ```
