@@ -1,13 +1,75 @@
-#!/bin/bash
-if [[ "$1" == "-h" || "$1" == "--help" || -z "$1" ]]; then
-    echo "Usage: kcme 'username:password'@target_ip"
-    exit 0
-fi
-input="$1"
-creds=$(echo "$input" | cut -d'@' -f1)
-ip=$(echo "$input" | cut -d'@' -f2)
-username=$(echo "$creds" | cut -d':' -f1)
-password=$(echo "$creds" | cut -d':' -f2)
-domains=$(grep "$ip" /etc/hosts | awk '{$1=""; print $0}' | tr -s ' ' | tr ' ' '\n' | tr '[:lower:]' '[:upper:]')
-for domain in $domains; do echo "$password" | kinit "$username@$domain" 2>/dev/null; done
-klist
+#!/usr/bin/env python3
+import os
+import shutil
+import sys
+from pathlib import Path
+
+YELLOW = "\033[33m"
+BLUE = "\033[34m"
+RED = "\033[31m"
+GREEN = "\033[32m"
+RESET = "\033[0m"
+
+def list_ccache_files():
+    return [f for f in os.listdir('.') if f.endswith('.ccache')]
+
+def get_input(files):
+    import curses
+    def curses_menu(stdscr):
+        curses.curs_set(0)
+        selected = 1
+        while True:
+            stdscr.clear()
+            stdscr.addstr("┌──────────────────────────────────────────┐\n")
+            stdscr.addstr("│   Kerberos Negotiation Management Menu   │\n")
+            stdscr.addstr("│             by DaddyBigFish              │\n")
+            stdscr.addstr("└──────────────────────────────────────────┘\n")
+            for i, f in enumerate(files, 1):
+                display_name = f[:-7] if f.endswith('.ccache') else f
+                if i == selected:
+                    stdscr.addstr(f"=> {i}. {display_name}\n", curses.A_REVERSE)
+                else:
+                    stdscr.addstr(f"   {i}. {display_name}\n")
+            try:
+                key = stdscr.getch()
+            except KeyboardInterrupt:
+                sys.exit(0)
+            if key in [curses.KEY_UP, ord('k')]:
+                selected = selected-1 if selected > 1 else len(files)
+            elif key in [curses.KEY_DOWN, ord('j')]:
+                selected = selected+1 if selected < len(files) else 1
+            elif key in [10, 13]:
+                return str(selected)
+            elif 48 <= key <= 57:
+                num = key - 48
+                if num == 0:
+                    sys.exit(0)
+                if 1 <= num <= len(files):
+                    return str(num)
+    try:
+        return curses.wrapper(curses_menu)
+    except KeyboardInterrupt:
+        sys.exit(0)#!/usr/bin/env python3
+
+def main():
+    files = list_ccache_files()
+    if not files:
+        print(f"Sorry, no user .cacche were found in the current directory.")
+        sys.exit(1)
+    while True:
+        choice = get_input(files)
+        if choice.isdigit() and 1 <= int(choice) <= len(files):
+            src = Path(files[int(choice)-1])
+            dst = Path("/tmp/krb5cc_1000")
+            shutil.copy2(src, dst)
+            username = src.stem.split('_')[0] if '_' in src.stem else src.stem
+            print(f"Now using Kerberos negotiation as {GREEN}{username}{RESET}!")
+            sys.exit(0)
+        else:
+            print(f"Sorry, that's an invalid choice, try again.")
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        sys.exit(0)
