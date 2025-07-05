@@ -26,9 +26,9 @@ kcme
 │             by DaddyBigFish              │
 └──────────────────────────────────────────┘
 => 1. kaorz
-=> 2. gibdeon
-=> 3. lothbrok
-=> 4. 0xvic
-=> 5. administrator
-=> 6. backupadmin
+   2. gibdeon
+   3. lothbrok
+   4. 0xvic
+   5. administrator
+   6. backupadmin
 ```
