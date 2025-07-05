@@ -62,7 +62,7 @@ def main():
             src = Path(files[int(choice)-1])
             dst = Path("/tmp/krb5cc_1000")
             shutil.copy2(src, dst)
-            username = src.stem.split('_')[0] if '_' in src.stem else src.stem
+            username = src.stem
             print(f"Now using Kerberos negotiation as {GREEN}{username}{RESET}!")
             sys.exit(0)
         else:
