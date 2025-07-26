@@ -1,7 +1,6 @@
-<img src="https://github.com/user-attachments/assets/43306087-42cf-48fb-b118-0c416d65835a" alt="kcme" width="300"/>    
-
 # kcme
-### Simplified Kerberos ccache management.
+### Simplified Kerberos ccache management. 
+<img src="https://github.com/user-attachments/assets/43306087-42cf-48fb-b118-0c416d65835a" alt="kcme" width="200"/>    
 
 # Description
 This was developed to solve the issue of managing ccache files while negotiating with Kerberos. The tool 𝗸𝗰𝗺𝗲 essentially provides a simple management user interface in python. It reads available .ccache files in the current directory and allows the user to select the user they wish to use for Kerberos negotiation. Once a user is selected, it loads the file into /tmp/krb5cc_1000.
