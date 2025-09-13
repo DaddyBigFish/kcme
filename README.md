@@ -20,14 +20,13 @@ sudo chmod +x /usr/local/bin/kcme
 # Usage
 ```
 kcme
-┌──────────────────────────────────────────┐
-│   Kerberos Negotiation Management Menu   │
-│             by DaddyBigFish              │
-└──────────────────────────────────────────┘
-=> 1. kaorz
-   2. gibdeon
-   3. lothbrok
-   4. 0xvic
-   5. administrator
-   6. backupadmin
+                                    ┌──────────────────────────────────────┐
+────────────────────────────────────│ Kerberos Negotiation Management Menu │─────────────────────────────────────
+────────────────────────────────────│           by DaddyBigFish            │─────────────────────────────────────
+                                    └──────────────────────────────────────┘
+
+ =>  1. Administrator                     5. blake                             9. riley
+     2. PNT-SVRBPA$                       6. jamie                            10. web_svc
+     3. ZPH-SVRMGMT1$                     7. marcus                           11. zph-svrmgmt1
+     4. administrator                     8. melissa
 ```
