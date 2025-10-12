@@ -13,6 +13,10 @@ sudo apt install krb5-user
 ```
 sudo wget https://github.com/DaddyBigFish/kcme/raw/refs/heads/main/kcme -O /usr/local/bin/kcme
 sudo chmod +x /usr/local/bin/kcme
+kcme
+Do you want to install readonly KRB5CCNAME=/tmp/krb5cc_1000 in ~/.zshrc? (y/n): y
+KRB5CCNAME configuration added to ~/.zshrc
+source ~/.zshrc
 ```
 # Usage
 ```
