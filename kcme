@@ -8,6 +8,31 @@ RESET = "\033[0m"
 def list_ccache_files():
     return sorted([f for f in os.listdir('.') if f.endswith('.ccache')])
 
+def check_zshrc():
+    zshrc_path = Path.home() / '.zshrc'
+    if zshrc_path.exists():
+        with open(zshrc_path) as f:
+            content = f.read()
+            return 'readonly KRB5CCNAME=/tmp/krb5cc_1000' in content
+    return False
+
+def install_krb5ccname():
+    zshrc_path = Path.home() / '.zshrc'
+    response = input("Do you want to install readonly KRB5CCNAME=/tmp/krb5cc_1000 in ~/.zshrc? (y/n): ").strip().lower()
+    if response == 'y':
+        lines_to_add = 'readonly KRB5CCNAME=/tmp/krb5cc_1000\nexport KRB5CCNAME\n'
+        if zshrc_path.exists():
+            with open(zshrc_path, 'r') as f:
+                content = f.read()
+            with open(zshrc_path, 'w') as f:
+                f.write(lines_to_add + content)
+        else:
+            with open(zshrc_path, 'w') as f:
+                f.write(lines_to_add)
+        print("KRB5CCNAME configuration added to ~/.zshrc")
+        return True
+    return False
+
 def draw_armed_box(stdscr, y, title, subtitle):
     h, w = stdscr.getmaxyx()
     inner_w = max(len(title), len(subtitle)) + 2
@@ -79,6 +104,10 @@ def get_input(files):
         sys.exit(0)
 
 def main():
+    if not check_zshrc():
+        if not install_krb5ccname():
+            print("readonly KRB5CCNAME not found in ~/.zshrc and not installed. Exiting.")
+            sys.exit(1)
     files = list_ccache_files()
     if not files:
         print("Sorry, no user .ccache were found in the current directory.")
