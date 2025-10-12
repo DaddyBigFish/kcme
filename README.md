@@ -8,9 +8,6 @@ This was developed to solve the issue of managing ccache files while negotiating
 # Requirements
 ```
 sudo apt install krb5-user
-echo 'export KRB5CCNAME=/tmp/krb5cc_1000' >> ~/.zshrc
-echo 'export KRB5CCNAME=/tmp/krb5cc_1000' >> ~/.bashrc
-source ~/.zshrc ~/.bashrc
 ```
 # Install
 ```
