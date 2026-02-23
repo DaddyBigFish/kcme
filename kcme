@@ -16,8 +16,18 @@ def check_zshrc():
             return 'readonly KRB5CCNAME=/tmp/krb5cc_1000' in content
     return False
 
+def check_bashrc():
+    bashrc_path = Path.home() / '.bashrc'
+    if bashrc_path.exists():
+        with open(bashrc_path) as f:
+            content = f.read()
+            return 'readonly KRB5CCNAME=/tmp/krb5cc_1000' in content
+    return False
+
 def install_krb5ccname():
     zshrc_path = Path.home() / '.zshrc'
+    bashrc_path = Path.home() / '.bashrc'
+    
     response = input("Do you want to install readonly KRB5CCNAME=/tmp/krb5cc_1000 in ~/.zshrc? (y/n): ").strip().lower()
     if response == 'y':
         lines_to_add = 'readonly KRB5CCNAME=/tmp/krb5cc_1000\nexport KRB5CCNAME\n'
@@ -30,8 +40,19 @@ def install_krb5ccname():
             with open(zshrc_path, 'w') as f:
                 f.write(lines_to_add)
         print("KRB5CCNAME configuration added to ~/.zshrc")
-        return True
-    return False
+
+    response = input("Do you want to install readonly KRB5CCNAME=/tmp/krb5cc_1000 in ~/.bashrc? (y/n): ").strip().lower()
+    if response == 'y':
+        lines_to_add = 'readonly KRB5CCNAME=/tmp/krb5cc_1000\nexport KRB5CCNAME\n'
+        if bashrc_path.exists():
+            with open(bashrc_path, 'r') as f:
+                content = f.read()
+            with open(bashrc_path, 'w') as f:
+                f.write(lines_to_add + content)
+        else:
+            with open(bashrc_path, 'w') as f:
+                f.write(lines_to_add)
+        print("KRB5CCNAME configuration added to ~/.bashrc")
 
 def draw_armed_box(stdscr, y, title, subtitle):
     h, w = stdscr.getmaxyx()
@@ -107,6 +128,10 @@ def main():
     if not check_zshrc():
         if not install_krb5ccname():
             print("readonly KRB5CCNAME not found in ~/.zshrc and not installed. Exiting.")
+            sys.exit(1)
+    if not check_bashrc():
+        if not install_krb5ccname():
+            print("readonly KRB5CCNAME not found in ~/.bashrc and not installed. Exiting.")
             sys.exit(1)
     files = list_ccache_files()
     if not files:
